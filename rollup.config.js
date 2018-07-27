@@ -1,28 +1,19 @@
-import babel from 'rollup-plugin-babel';
+import typescript from 'rollup-plugin-typescript2';
 import pkg from './package.json';
 
 export default [
   // Browser-friendly UMD build
   // CommonJS (for Node) and ES module (for bundlers) build.
   {
-    input: 'lib/index.js',
+    input: 'lib/index.ts',
     output: [
       { file: 'build/can-autoplay.js', format: 'umd', name: 'canAutoplay' },
       { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'es' }
     ],
     plugins: [
-      babel({
-        babelrc: false,
-        exclude: ['node_modules/**'],
-        presets: [
-          ['env', {
-            targets: {
-              browsers: ['last 2 versions', 'safari >= 8', 'ie 11']
-            },
-            modules: false
-          }]
-        ]
+      typescript({
+        tsconfig: "tsconfig.json",
       })
     ]
   }
